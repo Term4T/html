@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проверка треугольника</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Введите длины сторон треугольника</h2>
+    <!-- Создаём поля для ввода длинн сторон-->
+
+    <label for="sideX">Сторона X:</label>
+    <input type="number" id="sideX" required>
+
+    <label for="sideY">Сторона Y:</label>
+    <input type="number" id="sideY" required>
+
+    <label for="sideZ">Сторона Z:</label>
+    <input type="number" id="sideZ" required>
+<!-- Вызов функции по кнопке, которая проверяет, существует ли такой треугольник и прямоугольный ли он -->
+
+    <button onclick="checkTriangle()">Проверить треугольник</button>
+
+<!-- Здесь будет ответ  -->
+    <div id="result"></div>
+<!-- Пишем вставку с JS-->
+    <script>
+        function checkTriangle() {
+            // Получаем значения длинн сторон путем поиска элементов с нужными id
+            // var автоматически определяет нужный тип значения
+            var sideX = parseFloat(document.getElementById('sideX').value);
+            var sideY = parseFloat(document.getElementById('sideY').value);
+            var sideZ = parseFloat(document.getElementById('sideZ').value);
+
+            // Проверяем существует ли треугольник
+            if (sideX + sideY > sideZ && sideY + sideZ > sideX && sideZ + sideX > sideY) {
+                // Проверяем, является ли треугольник прямоугольным
+                var isRightTriangle = isRightTriangleCheck(sideX, sideY, sideZ);
+
+                // Выводим результат
+                if (isRightTriangle) {
+                    displayResult("Треугольник существует и является прямоугольным.");
+                } else {
+                    displayResult("Треугольник существует, но не является прямоугольным.");
+                }
+            } else {
+                displayResult("Треугольник не существует.");
+            }
+        }
+
+        function isRightTriangleCheck(x, y, z) {
+            // Функция проверки, является ли треугольник прямоугольным
+            var sides = [x, y, z].sort((a, b) => a - b);//создаем массив в котором находятся отсортированные значения сторон
+            //((a, b) => a - b) указывает на то что надо сортироавать в порядке убывания
+            //проверяем является ли треугольник прямоугольным с помощью теоремы пифагора и функции pow()-возведение в степень
+            return Math.pow(sides[0], 2) + Math.pow(sides[1], 2) == Math.pow(sides[2], 2);
+        }
+
+        function displayResult(message) {
+            // Вывод результата пользователю с помощью изменения элемента с нужным id
+            document.getElementById('result').innerText = message;
+        }
+    </script>
+
+<h2 id="text">Привет, мир!</h2>
+    <!-- Вызов функции при нажатии на кнопку  -->
+    <button onclick="toggleLanguage()">Переключить язык</button>
+
+    <script>
+        function toggleLanguage() {
+            var textElement = document.getElementById('text');//находим элемент с id=text и заносим его в переменную
+            var currentText = textElement.innerText;//получаем текст(привет, мир! или hello, world!)
+
+            // Eсли текущий текст - русский, переключаем на английский и наоборот
+            //Выполняем это с помощью тернарного оператора
+            var newText = (currentText === "Привет, мир!") ? "Hello, world!" : "Привет, мир!";
+
+            // Устанавливаем новый текст
+            textElement.innerText = newText;
+        }
+    </script>
+</body>
+</html>
